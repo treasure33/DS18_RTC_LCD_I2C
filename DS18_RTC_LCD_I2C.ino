@@ -1,4 +1,5 @@
 #define PRINT_MESSAGES 1
+#define INTERRUPT 1
 
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
@@ -191,9 +192,10 @@ void setup() {
   Serial.begin(9600);
 #endif
 
+#ifdef INTERRUPT
   pinMode(ledPin, OUTPUT);              // порт как выход
   attachInterrupt(0, blink, RISING); // привязываем 0-е прерывание к функции blink().
-
+#endif
   // set up the LCD's number of columns and rows: 
   lcd.init();
   lcd.createChar(1, gradus);
@@ -211,7 +213,9 @@ void setup() {
   converttall();
   delay(750);
   lastTemperature = getTemperature(0);
+#ifdef INTERRUPT
   sqw(); 
+#endif
 }
 
 void loop() {
